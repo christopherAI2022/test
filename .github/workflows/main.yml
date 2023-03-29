@@ -14,14 +14,13 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.5.4
         with:
-          key: ${{ secrets.DREAMHOST_PRIVATE_KEY }}
-          known_hosts: unnecessary
+          ssh-private-key: ${{ secrets.DREAMHOST_PRIVATE_KEY }}
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.DREAMHOST_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz ./ ${{ secrets.DREAMHOST_USERNAME }}@${{ secrets.DREAMHOST_HOST }}:/home/cmr924/acaexplorers.com/test/
+        run: rsync -avz ./ ${{ secrets.DREAMHOST_USERNAME }}@${{ secrets.DREAMHOST_HOST }}:/home/***/acaexplorers.com/test/
