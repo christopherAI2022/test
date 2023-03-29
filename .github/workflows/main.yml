@@ -14,13 +14,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.DREAMHOST_PRIVATE_KEY }}
-
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.DREAMHOST_HOST }} >> ~/.ssh/known_hosts
+          key: ${{ secrets.DREAMHOST_PRIVATE_KEY }}
+          known_hosts: 'arock.dreamhost.com,66.33.196.103 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWhJTDRMA7vpjsDWJWb1NKPxgteLqh+qDv2C1jmsMxTDufGt9uPM33Pt5SiQMG6EuOGkMqwYXRrC691OX2hlitwX6sPLYLauNvS3rrFY+aV39a4NSAhEuUXhf1OyAhLsTmmnpb0BGKQMeziELJJ2VrUs5Okt9jMB4gp7F8RZ2OdKRBLQYQ0mv+AvkfT6XXnGpqfYiifJ87aKNZMp/2v05vJQu8uWrM2zhrGzAH+Seh87NP6BeOWjQl5NfgjIHxV838j+T3gAGwmdHRu5O2VhyhmYDHn5wAHP+5y8kFmPlpJQv/uwzfPuwhqkgY6iWgwl3BGfZHZHZNeoeiK1lu32lF'
 
       - name: Deploy with rsync
-        run: rsync -avz ./ ${{ secrets.DREAMHOST_USERNAME }}@${{ secrets.DREAMHOST_HOST }}:/home/***/acaexplorers.com/test/
+        run: rsync -avz ./ ${{ secrets.DREAMHOST_USERNAME }}@${{ secrets.DREAMHOST_HOST }}:/home/cmr924/acaexplorers.com/test/
