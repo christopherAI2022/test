@@ -1,0 +1,24 @@
+name: Deploy to DreamHost
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to DreamHost
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DREAMHOST_HOST }}
+        username: ${{ secrets.DREAMHOST_USERNAME }}
+        key: ${{ secrets.DREAMHOST_PRIVATE_KEY }}
+        script: |
+          cd /home/cmr924/acaexplorers.com/test
+          git pull origin main
